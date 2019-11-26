@@ -4,7 +4,7 @@
 var net = require('net');
  
 // Configuration parameters
-var HOST = '10.11.26.190';
+var HOST = "localhost"; //'10.11.26.190';
 var PORT = 8080;
  
 // Create Server instance 

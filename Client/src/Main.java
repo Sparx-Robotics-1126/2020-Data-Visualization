@@ -3,24 +3,19 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static double x;
+    public static Scanner scan;
 
     public static void main(String[] args) throws IOException {
-        Scanner scan = new Scanner(System.in);
-        Client client = new Client("Test") {
+        scan = new Scanner(System.in);
+        new Client("Test") {
             @Override
             public double getXValue() {
                 return getX();
             }
-        };
-
-        while(true){
-            x = scan.nextDouble();
-            client.run();
-        }
+        }.start();
     }
 
     public static double getX(){
-        return x;
+    	return scan.nextDouble();
     }
 }
