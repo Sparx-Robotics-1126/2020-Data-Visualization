@@ -1,10 +1,20 @@
+//File Writer
+
+const csvWriter = require('csv-write-stream');
+writer = csvWriter();
+var file = "test.csv";
+
+var fs = require("fs");
+writer.pipe(fs.createWriteStream(file));
+
+
 //---------------------------------------
 //----------Robot to Server--------------
 //---------------------------------------
 var net = require('net');
  
 // Configuration parameters
-var HOST = "localhost"; //'10.11.26.190';
+var HOST = "10.11.26.169"; //'10.11.26.190';
 var PORT = 8080;
  
 // Create Server instance 
@@ -13,13 +23,18 @@ var server = net.createServer(onClientConnected);
 server.listen(PORT, HOST, function() {  
   console.log('server listening on %j', server.address());
 });
- 
+
+
+
 function onClientConnected(sock) {  
   var remoteAddress = sock.remoteAddress + ':' + sock.remotePort;
   console.log('New client connected: %s', remoteAddress);
  
   sock.on('data', function(data) {
     console.log(data.toString());
+    var json = JSON.parse(data);
+    if(json.name) 
+    	writer.write(JSON.parse(data));
     broadcastToBrowsers(data.toString());
   });
   sock.on('close',  function () {
@@ -71,3 +86,4 @@ app.get('/*', function(req,res) {
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 4200);
 console.log("Web Server Started... http://localhost:4200");
+
