@@ -1,3 +1,5 @@
+package frc.robot;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -5,7 +7,7 @@ import java.net.Socket;
 
 public abstract class Client extends Thread {
 
-    private final String HOSTNAME = "localhost";//"10.11.26.1";
+    private final String HOSTNAME = "10.11.26.169";//"10.11.26.1";
     private final int PORT = 8080;
 
     private String name;
