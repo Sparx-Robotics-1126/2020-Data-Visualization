@@ -18,20 +18,21 @@ public abstract class Client extends Thread {
     public Client(String name) throws IOException {
         this.name = name;
         Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(HOSTNAME, PORT), 1000);
+        socket.connect(new InetSocketAddress(HOSTNAME, PORT), 10000);
         writer = new PrintWriter(socket.getOutputStream(), true);
         startTime = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
-        while(!socket.isClosed()){
+        while(true){
             long time = System.currentTimeMillis() - startTime;
-            String json = "{\"name\": \"" + name + "\", \"timestamp\": " + time + ", \"x\": " + getXValue() + "}";
+            String json = "{\"name\": \"" + name + "\", \"timestamp\": " + time/1000 + ", \"x\": " + getXValue() + "}";
             writer.print(json);
+            writer.flush();
             try {Thread.sleep(100);} catch (InterruptedException e) {}
         }
-        try { socket.close(); } catch (IOException e) {e.printStackTrace();}
+        // try { socket.close(); } catch (IOException e) {e.printStackTrace();}
     }
 
     public abstract double getXValue();
