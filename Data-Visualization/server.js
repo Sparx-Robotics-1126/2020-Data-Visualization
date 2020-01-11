@@ -14,7 +14,7 @@ writer.pipe(fs.createWriteStream(file));
 var net = require('net');
  
 // Configuration parameters
-var HOST = "10.11.26.169"; //'10.11.26.190';
+var HOST = "10.11.26.190"; //'10.11.26.190';
 var PORT = 8080;
  
 // Create Server instance 
@@ -32,10 +32,14 @@ function onClientConnected(sock) {
  
   sock.on('data', function(data) {
     console.log(data.toString());
-    var json = JSON.parse(data);
-    if(json.name) 
-    	writer.write(JSON.parse(data));
-    broadcastToBrowsers(data.toString());
+    try{
+    	var json = JSON.parse(data);
+    	if(json.name) 
+    		writer.write(JSON.parse(data));
+    	broadcastToBrowsers(data.toString());
+   }catch(e){
+      console.log("error");
+   }
   });
   sock.on('close',  function () {
     console.log('connection from %s closed', remoteAddress);
